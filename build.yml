@@ -1,4 +1,4 @@
-# This image pulls dev-machine from dockerhub
+# This image builds dev-machine from the local docker
 projectdb:
     image: mdillon/postgis
     environment:
@@ -11,7 +11,7 @@ projectredis:
     image: redis:2.8
 projectdev:
     image: ff0000/dev-machine
-    hostname: project-dev
+    build: dev-machine
     command: /bin/bash
     tty: true
     stdin_open: true
