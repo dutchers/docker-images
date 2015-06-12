@@ -1,0 +1,22 @@
+projectdb:
+    image: mdillon/postgis
+    environment:
+        POSTGRES_PASSWORD: replace_me
+        # Next variable is going to create a db with same name
+        POSTGRES_USER: project
+    ports:
+        - "5432:5432"
+projectdev:
+    build: dev-machine
+    hostname: project-dev
+    command: /bin/bash
+    tty: true
+    stdin_open: true
+    volumes:
+        - ../../:/srv/active
+    ports:
+        - "8000:8000"
+    links:
+        - projectdb
+projectredis:
+    image:redis:2.8

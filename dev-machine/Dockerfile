@@ -5,8 +5,8 @@
 #
 # Core Toolset
 #
-# Django 1.8
-# Node 0.10.33
+# Django 1.7.x
+# Node 0.10.x
 # Redis Client 
 # Postgres Client 
 # zsh
@@ -52,7 +52,9 @@ RUN apt-get install -y redis-tools postgresql-client-common postgresql-client
 # No virtualenv, The docker container is the virtualenv
 RUN apt-get install -y python python-dev python-pip python-pillow \
     python-psycopg2 
-RUN pip install ipython pdb scarlet==1.2.1 red_fab_deploy2
+
+COPY ./requirements.txt requirements.txt
+RUN pip install -r requirements.txt 
 
 # Installing `node` and `npm`
 RUN curl -O http://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz
@@ -62,6 +64,7 @@ RUN mv node-v$NODE_VERSION-linux-x64 /opt/local/
 RUN ln -s /opt/local/node-v$NODE_VERSION-linux-x64/bin/node /usr/local/bin/
 RUN wget http://npmjs.org/install.sh && chmod +x install.sh && ./install.sh
 RUN rm install.sh
+
 RUN npm install grunt -g
 RUN npm install grunt-cli -g
 RUN npm install bower -g
@@ -76,7 +79,7 @@ RUN sh ./install.sh
 
 COPY ./zshrc /.zshrc
 
-# So you don't like zsh here's some bash for ya:with
+# So you don't like zsh here's some bash for ya
 RUN sed -i -e 's/# export LS_OPTIONS=/export LS_OPTIONS=/g' ~/.bashrc
 RUN sed -i -e 's/# alias ll/alias ll/g' ~/.bashrc
 RUN sed -i -e 's/# alias ls/alias ls/g' ~/.bashrc
