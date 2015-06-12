@@ -84,6 +84,9 @@ RUN sed -i -e 's/# export LS_OPTIONS=/export LS_OPTIONS=/g' ~/.bashrc
 RUN sed -i -e 's/# alias ll/alias ll/g' ~/.bashrc
 RUN sed -i -e 's/# alias ls/alias ls/g' ~/.bashrc
 
+# Clean up what we can
+RUN apt-get clean -y
+
 VOLUME /srv/active
 
 EXPOSE 8000 80
