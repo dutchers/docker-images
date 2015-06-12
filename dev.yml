@@ -6,7 +6,10 @@ projectdb:
         POSTGRES_USER: project
     ports:
         - "5432:5432"
+projectredis:
+    image: redis:2.8
 projectdev:
+    image: red-dev-machine
     build: dev-machine
     hostname: project-dev
     command: /bin/bash
@@ -18,5 +21,3 @@ projectdev:
         - "8000:8000"
     links:
         - projectdb
-projectredis:
-    image:redis:2.8

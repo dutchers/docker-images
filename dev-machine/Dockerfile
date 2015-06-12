@@ -87,3 +87,6 @@ RUN sed -i -e 's/# alias ls/alias ls/g' ~/.bashrc
 VOLUME /srv/active
 
 EXPOSE 8000 80
+
+
+CMD ["/bin/bash"]
