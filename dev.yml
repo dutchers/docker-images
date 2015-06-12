@@ -16,7 +16,7 @@ projectdev:
     tty: true
     stdin_open: true
     volumes:
-        - ../../:/srv/active
+        - ./:/srv/active
     ports:
         - "8000:8000"
     links:
