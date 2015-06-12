@@ -2,6 +2,23 @@
 
 This repo is intended to provide the base images and example compose files for project development. You can use the images directly but they are also easily extend. Please note that only our core tools are in these images, Postgres, Redis, Solr, etc... all use generic images from Docker Hub.
 
+
+
+## How To run this
+
+You can run this all kinds of ways but probably the easiest is the use docker-compose. Here are the instructions for installing
+
+https://docs.docker.com/compose/install/
+
+At the moment there are two docker compose yaml configs in the root directory. Use them like this
+
+`docker-compose -f dev.yml up -d`
+    If you would like to pull the dev image from the Docker Hub and spin up a running set of services. This will also pull the redis and postgres images.
+
+`docker-compose -f build.yml up -d`
+    If you would like to build the dev image locally ( this takes about 5 mins ). This will also pull the redis and postgres images from Docker Hub.
+
+
 ## dev-machine
 
 dev-machine is intended to provide a standardized development environment. It does not start any services, it simply provides a standardized development environment for a project with libraries tools all versioned to the context of the project. So you future you can just get to work and not spend days reconstructing what, then, will be outdated garbage on your computer. 
