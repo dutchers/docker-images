@@ -48,10 +48,21 @@ RUN apt-get install -y binutils libproj-dev gdal-bin
 # Clients for our external services
 RUN apt-get install -y redis-tools postgresql-client-common postgresql-client 
 
+# Let's put Nginx on here so we can mess with configs. 
+# Need Http2 so default package isn't good enough
+RUN wget http://nginx.org/keys/nginx_signing.key
+RUN apt-key add nginx_signing.key
+RUN sudo echo "deb http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/sources.list
+RUN sudo echo "deb-src http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/sources.list
+RUN apt-get update
+RUN apt-get install -y nginx
+RUN sed -i "1idaemon off;" /etc/nginx/nginx.conf
+
 # Python things we don't want to waste time compiling
 # No virtualenv, The docker container is the virtualenv
 RUN apt-get install -y python python-dev python-pip python-pillow \
     python-psycopg2 
+
 
 COPY ./requirements.txt requirements.txt
 RUN pip install -r requirements.txt 
@@ -84,7 +95,7 @@ RUN sed -i -e 's/# export LS_OPTIONS=/export LS_OPTIONS=/g' ~/.bashrc
 RUN sed -i -e 's/# alias ll/alias ll/g' ~/.bashrc
 RUN sed -i -e 's/# alias ls/alias ls/g' ~/.bashrc
 
-# Clean up what we can
+# Clean up what we can:we
 RUN apt-get clean -y
 
 VOLUME /srv/active
