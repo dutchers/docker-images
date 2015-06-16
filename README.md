@@ -21,7 +21,7 @@ At the moment there are two docker compose yaml configs in the root directory. U
 
 ## dev-machine
 
-dev-machine is intended to provide a standardized development environment. It does not start any services, it simply provides a standardized development environment for a project with libraries tools all versioned to the context of the project. So you future you can just get to work and not spend days reconstructing what, then, will be outdated garbage on your computer. 
+dev-machine is intended to provide a standardized development environment. It does not start any services, it simply provides a standardized development environment for a project with libraries tools all versioned to the context of the project. So future you can just get to work and not spend days reconstructing what, then, will be outdated libraries and services on your computer. 
 
 Start services with `docker-compose -f dev.yml up -d`. That will spin up the container, it's supporting containers, and establish the links between them. To work within the container type `docker exec -it docker_projectdev_1 /bin/zsh`.  Yes zsh and oh-my-zsh are installed ( do a little happy dance ). For the old-school just `/zsh/bash/g` in the previous command and you'll be happy too.
 
