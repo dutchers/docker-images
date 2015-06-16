@@ -21,3 +21,4 @@ projectdev:
         - "8000:8000"
     links:
         - projectdb
+        - projectredis
