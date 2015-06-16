@@ -8,7 +8,6 @@ scarlet==1.2.1
 red_fab_deploy2==0.2.4
 
 # Data
-psycopg2==2.5.4
 redis==2.9.1
 django-redis-cache==0.13.0
 
