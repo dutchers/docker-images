@@ -76,13 +76,25 @@ RUN tar -zxf node-v$NODE_VERSION-linux-x64.tar.gz
 RUN rm node-v$NODE_VERSION-linux-x64.tar.gz
 RUN mv node-v$NODE_VERSION-linux-x64 /opt/local/
 RUN ln -s /opt/local/node-v$NODE_VERSION-linux-x64/bin/node /usr/local/bin/
+# set npm global node_modules
+RUN echo "prefix = /srv/.npm-packages" >> /etc/npmrc
 RUN wget http://npmjs.org/install.sh && chmod +x install.sh && ./install.sh
 RUN rm install.sh
 
-RUN npm install grunt -g
-RUN npm install grunt-cli -g
-RUN npm install bower -g
-RUN npm install yo@1.4.6 -g
+RUN npm install -g npm@2.8.3 && \
+    npm install -g yo@1.4.6 bower@1.4.1 grunt-cli@0.1.13 && \
+    npm install -g generator-red-django && \
+    npm install -g generator-red-static
+
+
+RUN adduser --disabled-password --gecos "" developer && \
+      echo "developer ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+ENV HOME /home/developer
+RUN chown developer:developer /srv
+USER developer
+WORKDIR /home/developer
+
 
 # Install oh-my-zsh
 # Most every dev here is using this so may as well include it.
@@ -91,15 +103,12 @@ RUN wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh
 RUN sed -i -e '30,52d' ./install.sh
 RUN sh ./install.sh
 
-COPY ./zshrc /.zshrc
+COPY ./zshrc /home/developer/.zshrc
 
 # So you don't like zsh here's some bash for ya
 RUN sed -i -e 's/# export LS_OPTIONS=/export LS_OPTIONS=/g' ~/.bashrc
 RUN sed -i -e 's/# alias ll/alias ll/g' ~/.bashrc
 RUN sed -i -e 's/# alias ls/alias ls/g' ~/.bashrc
-
-# Clean up what we can:we
-RUN apt-get clean -y
 
 VOLUME /srv/active
 
