@@ -10,7 +10,6 @@ projectdb:
 projectredis:
     image: redis:2.8
 projectdev:
-    image: ff0000/dev-machine
     build: dev-machine
     command: /bin/bash
     tty: true

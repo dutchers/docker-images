@@ -56,7 +56,10 @@ RUN sudo echo "deb http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/s
 RUN sudo echo "deb-src http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/sources.list
 RUN apt-get update
 RUN apt-get install -y nginx
+# nginx runs in foreground
 RUN sed -i "1idaemon off;" /etc/nginx/nginx.conf
+COPY ./nginx /etc/nginx
+COPY ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Python things we don't want to waste time compiling
 # No virtualenv, The docker container is the virtualenv
