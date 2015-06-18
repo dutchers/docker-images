@@ -46,7 +46,9 @@ Repository
     This drops you into zsh on running container. In container world we don't often use ssh. This is the preferred method, don't use `docker connect`
 
 ``docker ps``
-    Lists running containers. The output looks like this, and yes it runsing into the 180th column! ::
+    Lists running containers. The output looks like this, and yes it runsing into the 180th column!
+
+::
 
     CONTAINER ID        IMAGE                       COMMAND                CREATED             STATUS              PORTS                                        NAMES
     c0fc29915e4c        ff0000/dev-machine:latest   "/bin/bash"            3 seconds ago       Up 2 seconds        0.0.0.0:80->80/tcp, 0.0.0.0:8000->8000/tcp   dockerimages_projectdev_1     
