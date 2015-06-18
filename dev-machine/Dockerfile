@@ -86,7 +86,8 @@ RUN npm install -g npm@2.8.3 && \
     npm install -g generator-red-django && \
     npm install -g generator-red-static
 
-
+# Do a bunch of stuff because yeoman has opinions instead of education
+# Sorry folks you are condemened to typing sudo in front of everything
 RUN adduser --disabled-password --gecos "" developer && \
       echo "developer ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
@@ -104,6 +105,7 @@ RUN sed -i -e '30,52d' ./install.sh
 RUN sh ./install.sh
 
 COPY ./zshrc /home/developer/.zshrc
+COPY red-docker.zsh-theme .oh-my-zsh/themes/
 
 # So you don't like zsh here's some bash for ya
 RUN sed -i -e 's/# export LS_OPTIONS=/export LS_OPTIONS=/g' ~/.bashrc
