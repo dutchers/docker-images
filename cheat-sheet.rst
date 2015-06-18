@@ -30,50 +30,48 @@ Repository
 ``docker run``
     This creates a container from your image and starts it. The options are unpacked below.
 
-`docker run -it dev-machine /bin/zsh` 
+``docker run -it dev-machine /bin/zsh``
     Runs the dev-machine in interactive mode with the command /bin/zsh. This command will start the container, connect you to it and give you a zsh shell prompt. Note the last arguement `/bin/zsh` could be anything, want to start nginx replace it with `/usr/sbin/nginx` but really the only time you -it is to get a shell.
 
-`docker run -it -p 8000:8000 ff0000/dev-machine:latest /bin/zsh`
+``docker run -it -p 8000:8000 ff0000/dev-machine:latest /bin/zsh``
     Does the same as above but maps port 8000 of the container to port 8000 of the container to port 8000 on the host machine. This let's you access http://yourip:8000
 
-`docker run -it -p 8000:8000 -v .:/srv/active dev-machine /bin/zsh`
+``docker run -it -p 8000:8000 -v .:/srv/active dev-machine /bin/zsh``
     Does the same as above but also mounts the directory you are in to the directoyr /srv/active in the container. 
 
-`docker run -d dev-machine` 
+``docker run -d dev-machine`` 
     This will run the container in the background.
 
-`docker exec -it container_name /bin/zsh`
+``docker exec -it container_name /bin/zsh``
     This drops you into zsh on running container. In container world we don't often use ssh. This is the preferred method, don't use `docker connect`
 
-`docker ps`
-    Lists running containers. The output looks like this, and yes it runsing into the 180th column!
+``docker ps``
+    Lists running containers. The output looks like this, and yes it runsing into the 180th column!::
 
-'''
     CONTAINER ID        IMAGE                       COMMAND                CREATED             STATUS              PORTS                                        NAMES
     c0fc29915e4c        ff0000/dev-machine:latest   "/bin/bash"            3 seconds ago       Up 2 seconds        0.0.0.0:80->80/tcp, 0.0.0.0:8000->8000/tcp   dockerimages_projectdev_1     
     aa21dfa891a6        redis:2.8                   "/entrypoint.sh redi   4 seconds ago       Up 3 seconds        6379/tcp                                     dockerimages_projectredis_1   
     8071090ad77e        mdillon/postgis:latest      "/docker-entrypoint.   4 seconds ago       Up 3 seconds        0.0.0.0:5432->5432/tcp                       dockerimages_projectdb_1  
-'''
 
-`docker ps -a`
+``docker ps -a``
     Lists all containers. This important, if you have stopped containers they are still using your disk space, reserving ports, and won't let you remove or update their images. Also if you stopped a container and you want to restart it, this is how you get it's name.
 
-`docker stop <container_name>`
+``docker stop <container_name>``
     This stops but does not remove the container.
 
-`docker rm <container_name>`
+``docker rm <container_name>``
     This will remove the container unless it is running.
 
-`docker rm $(docker ps -a |  awk '{print $1}')`
+``docker rm $(docker ps -a |  awk '{print $1}')``
     This will remove all non-running containers. You'd think there would be a `docker rm -a`, but there isn't.
 
-`docker images`
+``docker images``
     List all images.  The output can be missleading. This is because images are more complex than we are going into here. What you care about is the REPOSITORY and TAG columns.
 
-`docker rmi <repository>:<tag>`
+``docker rmi <repository>:<tag>``
     Remove image. For example `docker rmi ff0000/dev-machine:latest`.  
 
-`docker rmi $(docker ps -a | awk 'print $1')`
+``docker rmi $(docker ps -a | awk 'print $1')``
     Remove all the images. 
 
 

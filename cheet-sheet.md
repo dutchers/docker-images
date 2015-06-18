@@ -48,12 +48,10 @@ Repository
 `docker ps`
     Lists running containers. The output looks like this, and yes it runsing into the 180th column!
 
-'''
-CONTAINER ID        IMAGE                       COMMAND                CREATED             STATUS              PORTS                                        NAMES
-c0fc29915e4c        ff0000/dev-machine:latest   "/bin/bash"            3 seconds ago       Up 2 seconds        0.0.0.0:80->80/tcp, 0.0.0.0:8000->8000/tcp   dockerimages_projectdev_1     
-aa21dfa891a6        redis:2.8                   "/entrypoint.sh redi   4 seconds ago       Up 3 seconds        6379/tcp                                     dockerimages_projectredis_1   
-8071090ad77e        mdillon/postgis:latest      "/docker-entrypoint.   4 seconds ago       Up 3 seconds        0.0.0.0:5432->5432/tcp                       dockerimages_projectdb_1  
-'''
+    CONTAINER ID        IMAGE                       COMMAND                CREATED             STATUS              PORTS                                        NAMES
+    c0fc29915e4c        ff0000/dev-machine:latest   "/bin/bash"            3 seconds ago       Up 2 seconds        0.0.0.0:80->80/tcp, 0.0.0.0:8000->8000/tcp   dockerimages_projectdev_1     
+    aa21dfa891a6        redis:2.8                   "/entrypoint.sh redi   4 seconds ago       Up 3 seconds        6379/tcp                                     dockerimages_projectredis_1   
+    8071090ad77e        mdillon/postgis:latest      "/docker-entrypoint.   4 seconds ago       Up 3 seconds        0.0.0.0:5432->5432/tcp                       dockerimages_projectdb_1  
 
 `docker ps -a`
     Lists all containers. This important, if you have stopped containers they are still using your disk space, reserving ports, and won't let you remove or update their images. Also if you stopped a container and you want to restart it, this is how you get it's name.
@@ -80,4 +78,4 @@ aa21dfa891a6        redis:2.8                   "/entrypoint.sh redi   4 seconds
 
 ### Docker Compose
 
-    Thank you, thank you, thank you. If you want to, you can type out a very long list of arguements to your `docker run` command that let's you mount volumes, link containers, and specify environment variables, and various other things. You can but you will rage quit docker pretty quickly if you do. docker-compose lets you specify them in yml file, and then automates much of the nameing and coordination for you.  Docker compose was previously called fig, they are the same thing.
+Thank you, thank you, thank you. If you want to, you can type out a very long list of arguements to your `docker run` command that let's you mount volumes, link containers, and specify environment variables, and various other things. You can but you will rage quit docker pretty quickly if you do. docker-compose lets you specify them in yml file, and then automates much of the nameing and coordination for you.  Docker compose was previously called fig, they are the same thing.
