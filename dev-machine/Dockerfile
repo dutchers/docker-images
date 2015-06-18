@@ -26,9 +26,9 @@ ENV NODE_VERSION  0.10.36
 RUN apt-get update && apt-get upgrade -y
 
 # Set locale to US EN UTF8
-RUN apt-get install locales -y
-RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' /etc/locale.gen
-RUN locale-gen en_US.UTF-8
+RUN apt-get install locales -y && \
+    sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' /etc/locale.gen && \
+    locale-gen en_US.UTF-8 
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
@@ -50,12 +50,12 @@ RUN apt-get install -y redis-tools postgresql-client-common postgresql-client
 
 # Let's put Nginx on here so we can mess with configs. 
 # Need Http2 so default package isn't good enough
-RUN wget http://nginx.org/keys/nginx_signing.key
-RUN apt-key add nginx_signing.key
-RUN sudo echo "deb http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/sources.list
-RUN sudo echo "deb-src http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/sources.list
-RUN apt-get update
-RUN apt-get install -y nginx
+RUN wget http://nginx.org/keys/nginx_signing.key && \
+    apt-key add nginx_signing.key && \
+    echo "deb http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/sources.list && \
+    echo "deb-src http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/sources.list && \
+    apt-get update && \
+    apt-get install -y nginx
 # nginx runs in foreground
 RUN sed -i "1idaemon off;" /etc/nginx/nginx.conf
 COPY ./nginx /etc/nginx
@@ -71,20 +71,21 @@ COPY ./requirements.txt requirements.txt
 RUN pip install -r requirements.txt 
 
 # Installing `node` and `npm`
-RUN curl -O http://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz
-RUN tar -zxf node-v$NODE_VERSION-linux-x64.tar.gz
-RUN rm node-v$NODE_VERSION-linux-x64.tar.gz
-RUN mv node-v$NODE_VERSION-linux-x64 /opt/local/
-RUN ln -s /opt/local/node-v$NODE_VERSION-linux-x64/bin/node /usr/local/bin/
+RUN curl -O http://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz && \
+    tar -zxf node-v$NODE_VERSION-linux-x64.tar.gz && \
+    rm node-v$NODE_VERSION-linux-x64.tar.gz && \
+    mv node-v$NODE_VERSION-linux-x64 /opt/local/ && \
+    ln -s /opt/local/node-v$NODE_VERSION-linux-x64/bin/node /usr/local/bin/
+
 # set npm global node_modules
 RUN echo "prefix = /srv/.npm-packages" >> /etc/npmrc
-RUN wget http://npmjs.org/install.sh && chmod +x install.sh && ./install.sh
-RUN rm install.sh
+RUN wget http://npmjs.org/install.sh && chmod +x install.sh && \
+    ./install.sh && rm install.sh
 
 RUN npm install -g npm@2.8.3 && \
     npm install -g yo@1.4.6 bower@1.4.1 grunt-cli@0.1.13 && \
-    npm install -g generator-red-django && \
-    npm install -g generator-red-static
+    npm install -g generator-red-django@0.6.0 && \
+    npm install -g generator-red-static@0.6.0
 
 # Do a bunch of stuff because yeoman has opinions instead of education
 # Sorry folks you are condemened to typing sudo in front of everything
@@ -108,13 +109,12 @@ COPY ./zshrc /home/developer/.zshrc
 COPY red-docker.zsh-theme .oh-my-zsh/themes/
 
 # So you don't like zsh here's some bash for ya
-RUN sed -i -e 's/# export LS_OPTIONS=/export LS_OPTIONS=/g' ~/.bashrc
-RUN sed -i -e 's/# alias ll/alias ll/g' ~/.bashrc
-RUN sed -i -e 's/# alias ls/alias ls/g' ~/.bashrc
+RUN sed -i -e 's/# export LS_OPTIONS=/export LS_OPTIONS=/g' /home/developer/.bashrc && \
+    sed -i -e 's/# alias ll/alias ll/g' /home/developer/.bashrc && \
+    sed -i -e 's/# alias ls/alias ls/g' /home/developer/.bashrc
 
 VOLUME /srv/active
 
 EXPOSE 8000 80
-
 
 CMD ["/bin/bash"]
