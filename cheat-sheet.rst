@@ -1,8 +1,8 @@
-# Docker Cheet Sheet
+Docker Cheet Sheet
+------------------
 
-## Tools
-
-###Docker 
+Docker 
+======
 
 Docker is client/server application user for managing containers. The client/server nature of it important to understand as that is what allows you to manage container on systems that are not your own machine. It enables you to use boot2docker, Joyents Triton, or any  remote docker host to manage your images. Your docker workflow is composed of 
 
@@ -24,10 +24,10 @@ Repository
 
 **Commands**
 
-`docker pull` 
+``docker pull``
     Pulls an image. If the repository has a newer version of the image, it pulls the diffs between your copy and the repository.
 
-`docker run`
+``docker run``
     This creates a container from your image and starts it. The options are unpacked below.
 
 `docker run -it dev-machine /bin/zsh` 
@@ -48,10 +48,12 @@ Repository
 `docker ps`
     Lists running containers. The output looks like this, and yes it runsing into the 180th column!
 
+'''
     CONTAINER ID        IMAGE                       COMMAND                CREATED             STATUS              PORTS                                        NAMES
     c0fc29915e4c        ff0000/dev-machine:latest   "/bin/bash"            3 seconds ago       Up 2 seconds        0.0.0.0:80->80/tcp, 0.0.0.0:8000->8000/tcp   dockerimages_projectdev_1     
     aa21dfa891a6        redis:2.8                   "/entrypoint.sh redi   4 seconds ago       Up 3 seconds        6379/tcp                                     dockerimages_projectredis_1   
     8071090ad77e        mdillon/postgis:latest      "/docker-entrypoint.   4 seconds ago       Up 3 seconds        0.0.0.0:5432->5432/tcp                       dockerimages_projectdb_1  
+'''
 
 `docker ps -a`
     Lists all containers. This important, if you have stopped containers they are still using your disk space, reserving ports, and won't let you remove or update their images. Also if you stopped a container and you want to restart it, this is how you get it's name.
@@ -76,6 +78,7 @@ Repository
 
 
 
-### Docker Compose
+Docker Compose
+==============
 
 Thank you, thank you, thank you. If you want to, you can type out a very long list of arguements to your `docker run` command that let's you mount volumes, link containers, and specify environment variables, and various other things. You can but you will rage quit docker pretty quickly if you do. docker-compose lets you specify them in yml file, and then automates much of the nameing and coordination for you.  Docker compose was previously called fig, they are the same thing.
