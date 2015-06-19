@@ -58,27 +58,55 @@ Repository
 ``docker ps -a``
     Lists all containers. This important, if you have stopped containers they are still using your disk space, reserving ports, and won't let you remove or update their images. Also if you stopped a container and you want to restart it, this is how you get it's name.
 
-``docker stop <container_name>``
+``docker stop dockerimages_projectdev_1``
     This stops but does not remove the container.
 
-``docker rm <container_name>``
+``docker stop $(docker ps |  awk '{print $1}')``
+    This stops but does not remove all the containers. It will out put an error because CONTAINER ID is not a container id but it's as good as you're going to get until a ``-a`` option is addded.
+
+``docker rm docker images_projectdev_1``
     This will remove the container unless it is running.
 
 ``docker rm $(docker ps -a |  awk '{print $1}')``
     This will remove all non-running containers. You'd think there would be a `docker rm -a`, but there isn't.
 
 ``docker images``
-    List all images.  The output can be missleading. This is because images are more complex than we are going into here. What you care about is the REPOSITORY and TAG columns.
+    List all images.  The output can be missleading. This is because images are more complex than we are going to get into here. What you care about is the REPOSITORY and TAG columns.
 
-``docker rmi <repository>:<tag>``
-    Remove image. For example `docker rmi ff0000/dev-machine:latest`.  
+::
+
+    REPOSITORY           TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+    ff0000/dev-machine   latest              178a06678e32        22 hours ago        927.6 MB
+    mdillon/postgis      latest              338d438691c2        4 days ago          375.7 MB
+    redis                2.8                 dbbd133bdac6        3 weeks ago         110.8 MB
+    debian               7                   b96d1548a24e        4 weeks ago         84.97 MB
+
+``docker rmi debian:7``
+    Remove image.
 
 ``docker rmi $(docker ps -a | awk 'print $1')``
-    Remove all the images. 
+    Remove all the images. Again, why no ``docker rmi -a``!??!
+
 
 
 
 Docker Compose
 ==============
 
-Thank you, thank you, thank you. If you want to, you can type out a very long list of arguements to your `docker run` command that let's you mount volumes, link containers, and specify environment variables, and various other things. You can but you will rage quit docker pretty quickly if you do. docker-compose lets you specify them in yml file, and then automates much of the nameing and coordination for you.  Docker compose was previously called fig, they are the same thing.
+Thank you, thank you, thank you. If you want to, you can type out a very long list of arguements to your `docker run` command that let you mount volumes, link containers, specify environment variables, and various other things. You can, but you will rage quit docker pretty quickly if you do. docker-compose lets you specify them in yml file, and then automates much of the nameing and coordination for you.  Docker compose was previously called fig, so if you see people refer to fig, they are the same thing.
+
+**Commands**
+
+``docker-compose up -d``
+    This will bring up the server set defined in docker-compose.yml. If the images need to be pulled or built it will do that before bringing up and linking the containers.
+
+``docker-compose build``
+    This will pull images and bulding any images that need to be built.
+
+``docker-compose -f dev.yml up -d``
+    If you tried either of the previous two commands while in this repo, you'll notice they errored out. The `-f` option let's to specify the config you want to act upon. You'll notice there are 3 in this directory. `qa,yml`, `build.yml`, and `dev.yml`. They all act on the same images with minor variations. 
+
+``docker-compose -f build.yml build``
+    This will pull the images we need and run `docker build` on any images that need building.
+
+
