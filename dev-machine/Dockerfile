@@ -40,7 +40,8 @@ RUN mkdir /opt/local
 
 # Install base tools
 RUN apt-get install -y wget curl htop ntp vim build-essential \
-    git-core tmux supervisor zsh sudo
+    git-core tmux supervisor zsh sudo libzmq3-dev gettext fontforge \ 
+    libcairo2 libjpeg-dev
 
 # For PostGIS and GeoDjango
 RUN apt-get install -y binutils libproj-dev gdal-bin
@@ -62,9 +63,9 @@ COPY ./nginx /etc/nginx
 COPY ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Python things we don't want to waste time compiling
-# No virtualenv, The docker container is the virtualenv
+# virtualenv, is depricated. Our current tools need it though so it's here.
 RUN apt-get install -y python python-dev python-pip python-pillow \
-    python-psycopg2 
+    python-psycopg2 python-virtualenv
 
 
 COPY ./requirements.txt requirements.txt
@@ -85,7 +86,9 @@ RUN wget http://npmjs.org/install.sh && chmod +x install.sh && \
 RUN npm install -g npm@2.8.3 && \
     npm install -g yo@1.4.6 bower@1.4.1 grunt-cli@0.1.13 && \
     npm install -g generator-red-django@0.6.0 && \
-    npm install -g generator-red-static@0.6.0
+    npm install -g generator-red-static@0.6.0 && \
+    npm install -g pngjs@0.4.0 && \
+    npm install -g phantomjs@1.9.17
 
 # Do a bunch of stuff because yeoman has opinions instead of education
 # Sorry folks you are condemened to typing sudo in front of everything
