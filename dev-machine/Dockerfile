@@ -37,6 +37,7 @@ RUN dpkg-reconfigure locales
 # If you are installing binaries or compiling code output should
 # go here so as not to conflict with  /usr/local
 RUN mkdir /opt/local
+RUN mkdir /srv/configs
 
 # Install base tools
 RUN apt-get install -y wget curl htop ntp vim build-essential \
@@ -60,7 +61,11 @@ RUN wget http://nginx.org/keys/nginx_signing.key && \
 # nginx runs in foreground
 RUN sed -i "1idaemon off;" /etc/nginx/nginx.conf
 COPY ./nginx /etc/nginx
+RUN mkdir /var/log/gunicorn && chown nginx /var/log/gunicorn
+
+# Set up supervisor and gunicorn
 COPY ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY ./gunicorn /srv/configs/gunicorn
 
 # Python things we don't want to waste time compiling
 # virtualenv, is depricated. Our current tools need it though so it's here.
@@ -99,7 +104,6 @@ ENV HOME /home/developer
 RUN chown developer:developer /srv
 USER developer
 WORKDIR /home/developer
-
 
 # Install oh-my-zsh
 # Most every dev here is using this so may as well include it.
