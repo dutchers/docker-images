@@ -42,7 +42,7 @@ RUN mkdir /srv/configs
 # Install base tools
 RUN apt-get install -y wget curl htop ntp vim build-essential \
     git-core tmux supervisor zsh sudo libzmq3-dev gettext fontforge \ 
-    libcairo2 libjpeg-dev
+    libcairo2 libjpeg-dev zlib1g-dev
 
 # For PostGIS and GeoDjango
 RUN apt-get install -y binutils libproj-dev gdal-bin
@@ -125,3 +125,4 @@ VOLUME /srv/active
 EXPOSE 8000 80
 
 CMD ["/bin/bash"]
+
