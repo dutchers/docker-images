@@ -1,16 +1,16 @@
 #
 # Base developer image for RED Interactive Agency
-# This image includes the core frameworks, libraries, and tools 
-# needed to work on dockerized projects at RED. 
+# This image includes the core frameworks, libraries, and tools
+# needed to work on dockerized projects at RED.
 #
 # Core Toolset
 #
 # Django 1.7.x
 # Node 0.10.x
-# Redis Client 
-# Postgres Client 
+# Redis Client
+# Postgres Client
 # zsh
-# git 
+# git
 # Python 2.7
 # yeoman
 # bower
@@ -28,7 +28,7 @@ RUN apt-get update && apt-get upgrade -y
 # Set locale to US EN UTF8
 RUN apt-get install locales -y && \
     sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' /etc/locale.gen && \
-    locale-gen en_US.UTF-8 
+    locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
@@ -41,16 +41,16 @@ RUN mkdir /srv/configs
 
 # Install base tools
 RUN apt-get install -y wget curl htop ntp vim build-essential \
-    git-core tmux supervisor zsh sudo libzmq3-dev gettext fontforge \ 
+    git-core tmux supervisor zsh sudo libzmq3-dev gettext fontforge \
     libcairo2 libjpeg-dev
 
 # For PostGIS and GeoDjango
 RUN apt-get install -y binutils libproj-dev gdal-bin
 
 # Clients for our external services
-RUN apt-get install -y redis-tools postgresql-client-common postgresql-client 
+RUN apt-get install -y redis-tools postgresql-client-common postgresql-client
 
-# Let's put Nginx on here so we can mess with configs. 
+# Let's put Nginx on here so we can mess with configs.
 # Need Http2 so default package isn't good enough
 RUN wget http://nginx.org/keys/nginx_signing.key && \
     apt-key add nginx_signing.key && \
@@ -74,7 +74,7 @@ RUN apt-get install -y python python-dev python-pip python-pillow \
 
 
 COPY ./requirements.txt requirements.txt
-RUN pip install -r requirements.txt 
+RUN pip install -r requirements.txt
 
 # Installing `node` and `npm`
 RUN curl -O http://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz && \
