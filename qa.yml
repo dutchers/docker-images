@@ -1,4 +1,6 @@
-# This image pulls dev-machine from dockerhub
+# Pull dev-machine from dockerhub
+# Start all services
+# Intended to spin up a QA env
 projectdb:
     image: mdillon/postgis
     environment:
