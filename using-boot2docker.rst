@@ -40,10 +40,10 @@ You'll probably missing a few Port Forward settings
     :align: center
 
 
-My Docker Directory Doesn't have anything in it
+My Docker directory doesn't have anything in it
 ###############################################
 
-VirtualBox requires you to share a local directory with the Hypervisor so boot2docker can pass content from the local-filesystem into the remote filesystem inside the VM.
+VirtualBox requires you to share a local directory with the hypervisor so boot2docker can pass content from the local-filesystem into the remote filesystem inside the VM.
 
 .. code-block:: bash
 
