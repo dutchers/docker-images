@@ -1,5 +1,6 @@
-# Pulls dev-machine from dockerhub
-# Intended for developing websites
+# Pull dev-machine from dockerhub
+# Start all services
+# Intended to spin up a QA env
 projectdb:
     image: mdillon/postgis
     environment:
@@ -13,14 +14,13 @@ projectredis:
 projectdev:
     image: ff0000/dev-machine
     hostname: project-dev
-    command: /bin/bash
+    command: /usr/bin/supervisord
     tty: true
     stdin_open: true
     volumes:
         - ./:/srv/active
     ports:
         - "8000:8000"
-        - "80:80"
     links:
         - projectdb
         - projectredis
