@@ -9,16 +9,16 @@ Docker is client/server application user for managing containers. The client/ser
 **Docker Things**
 
 Dockerfile
-    This is the reciepe for building a Docker Image. It's a text file, it's easy to read, and easy to distribute. It's even useful for passing around to show people how to do something.
+    This is the reciepe for building a Docker Image. It's a text file, it's easy to read, and easy to distribute. It's even useful for passing around to show people who don't use docker how to do something.
 
 Images
-    These are the built server snapshots from which you run containers. Think of them as the Class from which you instantiate Objects. Docker Images can be composed from Dockerfiles, which are recipie for createing images. Images can be stored in a repository like hub.docker.com or built on the fly. Images are a series of file system segments, not a contigious block, this enables images to be diffed and versioned similar a git repository. This segmented nature also reduces build time and bandwidth requirements when moving images around the network.
+    These are the built server snapshots from which you run containers. Think of them as the Class from which you instantiate Objects. Docker Images are built from Dockerfiles. Images can be stored in a repository like hub.docker.com or built on the fly. Images are a series of file system segments, not a contigious block, this enables images to be diffed and versioned similar a git repository. This segmented nature also reduces build time and bandwidth requirements when moving images around the network.
 
 Containers
-    If Images are Classes, Containers are Objects. Containers are running instances of images that can have different internal states; configurations, running processes, data. It is useful to think of them similarly to a running Virtual Machine, this can however get you into trouble. Containers can be stopped, started, and destroyed. Stopping a container maintains it's internal state. Destroying it will remove all of it's state. It is important to note that container state is not saved back to the image. All data in a container is transient. Persistence can be acheived by mounting volumes into a container. It is also important to note that by default containers are NAT'd throught the host IP address. This has implications for how ports are assigned for instance if you had two Django instances running they could not both use port 8000. Understanding how this works will make your life easier, but is beyond the scope of this cheetsheet.
+    If Images are Classes, Containers are Objects. Containers are running instances of images that can have different internal states; configurations, running processes, and data. It is useful to think of them similarly to a running Virtual Machine, this can however get you into trouble. Containers can be stopped, started, and destroyed. Stopping a container maintains it's internal state. Destroying it will remove all of it's state. It is important to note that container state is not saved back to the image. All data in a container is transient. Persistence can be acheived by mounting volumes into a container. It is also important to note that by default containers are NAT'd throught the host IP address. This has implications for how ports are assigned for instance if you had two Django instances running they could not both use port 8000. Understanding how this works will make your life easier, but is beyond the scope of this cheetsheet.
 
 Repository
-    This is just like a centralized git repository. It is where you push, pull, and update your images. The most common one is http://hub.docker.com.  There will probably be more once docker-distribute becomes usefull, probably 2.1.
+    This is just like a centralized git repository. It is where you push, pull, and update your images. The most common one is http://hub.docker.com.  There will probably be more once docker-distribute becomes usefull, that should happen around 2.1.
 
 
 
@@ -26,27 +26,26 @@ Repository
 
 The commands here use our image names so it's easy to use this repo to run them.
 
-``docker pull``
+``docker pull ff0000/dev-machine:latest``
     Pulls an image. If the repository has a newer version of the image, it pulls the diffs between your copy and the repository.
 
-``docker run``
+``docker run ff0000/dev-machine:latest``
     This creates a container from your image and starts it. The options are unpacked below.
 
 ``docker run -it ff0000/dev-machine:latest /bin/zsh``
-    Runs the dev-machine in interactive mode with the command /bin/zsh. This command will start the container, connect you to it and give you a zsh shell prompt. Note the last arguement `/bin/zsh` could be anything, want to start nginx replace it with `/usr/sbin/nginx` but really the only time you -it is to get a shell.
+    Runs the dev-machine in interactive mode with the command /bin/zsh. This command will start the container, connect you to it and give you a zsh shell prompt. Note the last arguement `/bin/zsh` could be anything, want to start nginx replace it with `/usr/sbin/nginx` but in reality, the only time you -it is to get a shell.
 
 ``docker run -it -p 8000:8000 ff0000/dev-machine:latest /bin/zsh``
     Does the same as above but maps port 8000 of the container to port 8000 of the container to port 8000 on the host machine. This let's you access http://yourip:8000
 
-``docker run -it -p 8000:8000 -v .:/srv/active dev-machine /bin/zsh``
-    Does the same as above but also mounts the directory you are in to the directoyr /srv/active in the container.
+``docker run -it -p 8000:8000 -v .:/srv/active ff0000/dev-machine:latest /bin/zsh``
+    Does the same as above but also mounts the directory you are in to the directory /srv/active in the container.
 
-``docker run -d dev-machine``
+``docker run -d ff0000/dev-machine:latest``
     This will run the container in the background.
 
-
 ``docker ps``
-    Lists running containers. The output looks like this, and yes it runsing into the 180th column!
+    Lists running containers. There is example output below. Yes it runs into the 180th column, hope you have a big monitor!
 
 ::
 
@@ -59,7 +58,7 @@ The commands here use our image names so it's easy to use this repo to run them.
     Lists all containers. This important, if you have stopped containers they are still using your disk space, reserving ports, and won't let you remove or update their images. Also if you stopped a container and you want to restart it, this is how you get it's name.
 
 ``docker exec -it dockerimages_projectdev_1 /bin/zsh``
-    This drops you into zsh on running container. In container world we don't often use ssh. This is the preferred method, don't use `docker connect`
+    This drops you into zsh on running container. In 'containerland' we don't often use ssh. This is the preferred method, don't use `docker connect`.
 
 ``docker stop dockerimages_projectdev_1``
     This stops but does not remove the container.
@@ -96,18 +95,20 @@ Docker Compose
 
 Thank you, thank you, thank you.
 
-If you want to, feel free to type out the long list of arguements to your `docker run` command that let you mount volumes, link containers, specify environment variables, and various other things. You can, but you will rage quit docker pretty quickly if you do. docker-compose lets you specify them in yml file, and then automates much of the naming and coordination for you.  Docker compose was previously called fig, so if you see people refer to fig, they are the same thing.
+If you would like please feel free to type out the long list of arguements to your `docker run` command that let you mount volumes, link containers, specify environment variables, and various other things. You can, but you will rage quit docker pretty quickly if you do. docker-compose lets you specify all your arguments in yml file, and then automates much of the naming and coordination for you.  Docker compose was previously called fig, so if you see people refer to fig, they are the same thing.
+
+There is an important got-ya in docker-compose. If you specify `build` you can't specify `image`. There is no, "if an image exists pull it, otherwise build it" This is easy to work around, we just have a compose file for building images and one for running a built image. We only use the former when changing our core images and the later for developing websites.
 
 **Commands**
+
+``docker-compose build``
+    This command looks for a docker-compose.yml file. It will use that to pull and build any images defined in that file .
+
+``docker-compose -f build.yml build``
+    This does the same as above but using a customized compose file.
 
 ``docker-compose up -d``
     This will bring up the server set defined in docker-compose.yml. If the images need to be pulled or built it will do that before bringing up and linking the containers.
 
-``docker-compose build``
-    This will pull images and bulding any images that need to be built.
-
 ``docker-compose -f dev.yml up -d``
-    If you tried either of the previous two commands while in this repo, you'll notice they errored out. The `-f` option let's to specify the config you want to act upon. You'll notice there are 3 in this directory. `qa,yml`, `build.yml`, and `dev.yml`. They all act on the same images with minor variations.
-
-``docker-compose -f build.yml build``
-    This will pull the images we need and run `docker build` on any images that need building.
+    This does the same as above but using a customized compose file.
