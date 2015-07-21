@@ -4,7 +4,7 @@ About boot2docker
 Linux Vs Mac
 ============
 
-boot2docker provides an native-like-feeling for working with boot2docker. Rather then rolling a kernel, you can sit behind a VM utilizing virtualbox to get started with docker.
+boot2docker provides an native-like-feeling for working with boot2docker. Rather then rolling a linux-kernel, you can sit behind a VM utilizing virtualbox to get started with docker.
 
 Download and Install
 ====================
