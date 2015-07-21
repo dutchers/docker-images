@@ -20,6 +20,9 @@ Containers
 Repository
     This is just like a centralized git repository. It is where you push, pull, and update your images. The most common one is http://hub.docker.com.  There will probably be more once docker-distribute becomes usefull, that should happen around 2.1.
 
+**boot2docker pass volume passthrough**
+``VBoxManage sharedfolder add boot2docker-vm --name /srv/active --hostpath /path/to/projects/folder``
+
 
 
 **Commands**
