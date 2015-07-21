@@ -56,6 +56,7 @@ My Docker commands wont run
 ###########################
 
 vi ~/.bash_profile
+
 .. code-block:: bash
 
     # If docker fails, do the following:
