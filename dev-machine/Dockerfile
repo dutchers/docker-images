@@ -115,6 +115,9 @@ RUN sh ./install.sh
 COPY ./zshrc /home/developer/.zshrc
 COPY red-docker.zsh-theme .oh-my-zsh/themes/
 
+# Vim simple & useful configuration
+COPY ./vimrc /home/developer/.vimrc
+
 # So you don't like zsh here's some bash for ya
 RUN sed -i -e 's/# export LS_OPTIONS=/export LS_OPTIONS=/g' /home/developer/.bashrc && \
     sed -i -e 's/# alias ll/alias ll/g' /home/developer/.bashrc && \
