@@ -23,7 +23,7 @@ https://www.virtualbox.org/wiki/Download_Old_Builds_4_3.
 
 Next create a host to house your docker instances:
 
-`docker-machine create --virtualbox-hostonly-cidr "192.168.240.1/24" --driver virtualbox dev`
+:code:`docker-machine create --virtualbox-hostonly-cidr "192.168.240.1/24" --driver virtualbox dev`
 
 You now have a virtualbox instance running the boot2docker.iso. This instace has the docker
 server tools installed and will accept commands from the docker client running your local
@@ -38,11 +38,11 @@ got a few more steps.
 
 Let's mount your /Users directory into the VirtualBox instance
 
-```
-docker-machine stop dev
-VBoxManage sharedfolder add dev --name /Users --hostpath /Users
-docker-machine start dev
-```
+.. code:: bash
+
+  docker-machine stop dev
+  VBoxManage sharedfolder add dev --name /Users --hostpath /Users
+  docker-machine start dev
 
 Port Forwarding
 ###############
