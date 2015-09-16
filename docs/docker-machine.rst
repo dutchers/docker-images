@@ -38,11 +38,11 @@ got a few more steps.
 
 Let's mount your /Users directory into the VirtualBox instance
 
-``
+```
 docker-machine stop dev
 VBoxManage sharedfolder add dev --name /Users --hostpath /Users
 docker-machine start dev
-``
+```
 
 Port Forwarding
 ###############
