@@ -16,7 +16,7 @@ docker-machine is distributed with docker 1.8+ which you should install with bre
 don't have brew you consider opening up Powerpoint and making presentations for a
 living.
 
-`brew install docker`
+:code:`brew install docker`
 
 The other requirement is Virtualbox 4 so install that from
 https://www.virtualbox.org/wiki/Download_Old_Builds_4_3.
@@ -30,7 +30,7 @@ server tools installed and will accept commands from the docker client running y
 command line. To configure the local docker command tos talk to the virtualbox docker server
 follow the output from the previous command, which tells you to this:
 
-`eval "$(docker-machine env dev)"`
+:code:`eval "$(docker-machine env dev)"`
 
 With that you can run docker images... but if you want to work use them to work with local
 files or provide access to users that on your computer - say for looking at webpage - you've
