@@ -32,6 +32,32 @@ Open your browser and go to the following URL:
 http://<docker_ip>:8080
 ```
 
+## Git integration
+
+Your *Jenkins* server will need SSH keys to connect to your git server.
+You can add those to the `jenkis_data/.ssh` directory.
+
+Also, make sure your *Jenkins* server can connect to your git server. You
+can run the following command:
+
+```
+git ls-remote <git_server_repo_url>
+```
+
+After executing that command, *Jenkins* server will ask you for adding the git
+server IP to the `.ssh/know_hosts` directory. Then, *Jenkins* will be ready
+to pull code from your git server.
+
+### Hooks
+
+If you want to launch a new *Jenkins* build process every time someone push
+to git server, you can add the following code to the `hooks/post-receive` file
+on your git server:
+
+```
+curl http://<jenkins_server_ip>:<jenkins_server_port>/git/notifyCommit/?url=<git_server_repo_url>
+```
+
 ## Log file
 
 *Dockerfile* will create a new path for using a specific *log* file for *Jenkins*. If you
