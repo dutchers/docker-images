@@ -27,9 +27,9 @@ RUN mkdir -p /srv/.npm-packages
 RUN apt-get install bzip2 -y
 RUN curl -O http://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz
 RUN tar -zxf node-v$NODE_VERSION-linux-x64.tar.gz
-RUN	rm node-v$NODE_VERSION-linux-x64.tar.gz
-RUN	mv node-v$NODE_VERSION-linux-x64 /opt/local/
-RUN	ln -s /opt/local/node-v$NODE_VERSION-linux-x64/bin/node /usr/local/bin/
+RUN rm node-v$NODE_VERSION-linux-x64.tar.gz
+RUN mv node-v$NODE_VERSION-linux-x64 /opt/local/
+RUN ln -s /opt/local/node-v$NODE_VERSION-linux-x64/bin/node /usr/local/bin/
 RUN echo "prefix = /srv/.npm-packages" >> /etc/npmrc
 RUN /opt/local/node-v$NODE_VERSION-linux-x64/bin/npm install -g npm@2.8.3
 RUN ln -s /opt/local/node-v0.10.36-linux-x64/bin/npm /usr/local/bin/npm
