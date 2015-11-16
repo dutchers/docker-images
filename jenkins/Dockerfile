@@ -6,16 +6,23 @@ USER root
 RUN mkdir /var/log/jenkins
 RUN chown -R  jenkins:jenkins /var/log/jenkins
 RUN echo "alias ll='ls -l'" >> /etc/profile
+
 USER jenkins
 
 COPY plugins.txt /usr/share/jenkins/ref/
 RUN /usr/local/bin/plugins.sh /usr/share/jenkins/ref/plugins.txt
 
 USER root
+
 RUN apt-get update
 
+RUN apt-get install sudo
+RUN adduser jenkins sudo
+RUN echo 'jenkins ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
 # Installing Python and required packages for deploying
-RUN apt-get install -y python python-dev python-pip python-pillow
+RUN apt-get install -y python python-dev python-pip python-pillow python-openssl
+RUN pip install virtualenv==13.1.2
 RUN pip install Fabric==1.10.2
 RUN pip install Paramiko==1.15.2
 RUN pip install red-fab-deploy
@@ -38,3 +45,5 @@ RUN npm install -g generator-red-django@0.6.0
 RUN npm install -g generator-red-static@0.6.0
 RUN npm install -g pngjs@0.4.0
 RUN npm install -g phantomjs@1.9.17
+
+USER jenkins
