@@ -3,6 +3,7 @@ FROM jenkins
 ENV NODE_VERSION 0.10.36
 
 USER root
+RUN chown -R jenkins /var/jenkins_home
 RUN mkdir /var/log/jenkins
 RUN chown -R  jenkins:jenkins /var/log/jenkins
 RUN echo "alias ll='ls -l'" >> /etc/profile
