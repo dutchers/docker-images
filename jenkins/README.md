@@ -48,6 +48,41 @@ After executing that command, *Jenkins* server will ask you for adding the git
 server IP to the `.ssh/know_hosts` directory. Then, *Jenkins* will be ready
 to pull code from your git server.
 
+### Build script for deployment
+
+Your new *Jenkins* job should include the execution of a specific script for
+getting a new build. When you're configuring a new job, you should mark
+*Poll SCM* checkbox on *Build Triggers* section. Also, you should add the name
+of the script that will be executed after polling code from *git* repository.
+You can do that adding the name of the mentioned script to *Command* textarea,
+inside *Build* section. Don't forget to mark *Execute shell* checkbox first. The
+value for the mentioned textarea should be `scripts/jenkins_build.sh`.
+
+Due to each project is using a different *virtualenv* and different *npm* modules,
+each project should include the mentioned script, which will be executed after
+polling code from *git*. The next lines are an example for content of the
+ `scripts/jenkins_build.sh` script:
+
+```
+#!/bin/bash
+ENV_DIRECTORY='env'
+
+if [ ! -d "$ENV_DIRECTORY" ]; then
+ virtualenv --system-site-packages env
+fi
+
+. $ENV_DIRECTORY/bin/activate
+
+sudo pip install -r deploy/requirements/base.txt
+
+npm install
+grunt build
+```
+
+Obviously, project we're configuring in *Jenkins* should contain
+`scripts/jenkins_build.sh` script.
+
+
 ### Hooks
 
 If you want to launch a new *Jenkins* build process every time someone push
@@ -82,4 +117,3 @@ machine folder.
 ```
 $ docker-compose -f dev.yml stop
 ```
-
