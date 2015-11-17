@@ -5,6 +5,7 @@ jenkins-server:
   environment:
     JAVA_OPTS: "-Djava.awt.headless=true"
     JENKINS_OPTS: "--handlerCountStartup=100 --handlerCountMax=300 --logfile=/var/log/jenkins/jenkins.log"
+    COPY_REFERENCE_FILE_LOG: "/var/log/jenkins/copy_reference_file.log"
   ports:
     - "50000:50000"
     - "8080:8080"
