@@ -4,6 +4,8 @@ Files in this folder help you to build a custom `Jenkins` image for installing
 specific plugins in your `Jenkins` server. Then you can run a *Docker* container
 using that image.
 
+We're using `nginx` as reverse proxy to `Jenkins`.
+
 ## How to build Jenkins custom image
 
 ```
@@ -29,7 +31,7 @@ change `volumes` directive on `dev.yml` for using a different location.
 Open your browser and go to the following URL:
 
 ```
-http://<docker_ip>:8080
+http://<docker_ip>
 ```
 
 ## Git integration
