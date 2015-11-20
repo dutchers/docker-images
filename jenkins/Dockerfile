@@ -1,5 +1,7 @@
 FROM jenkins
 
+MAINTAINER Arturo Fernandez <arturo.fernandez@ff0000.com>
+
 ENV NODE_VERSION 0.10.36
 
 USER root

@@ -1,3 +1,9 @@
+nginx:
+  build: ./nginx/
+  hostname: jenkins-nginx
+  container_name: jenkins-nginx
+  ports:
+    - "80:80"
 jenkins-server:
   build: .
   container_name: jenkins-server
