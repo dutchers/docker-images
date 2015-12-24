@@ -1,0 +1,13 @@
+projectdb:
+    build: db-machine
+    environment:
+        REPLICATION_ROLE: master
+        DATABASE: project_database
+        # Next variable is going to create a db with same name
+        POSTGRES_PASSWORD: IAMNOTSECURE
+        PROJECT_USER: project_user
+        PROJECT_PASSWORD: IAMNOTSECURE
+        REPLICATION_USER: replication_user
+        REPLICATION_PASSWORD: IAMNOTSECURE
+    ports:
+        - "5432:5432"
