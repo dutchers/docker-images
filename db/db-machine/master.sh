@@ -81,14 +81,14 @@ echo "wrote to pg_hba"
 sed -i -e "s/#wal_level = minimal/wal_level = hot_standby/" $PG_CONF
 echo "set wal level"
 
-# Allow 3 replicators.  We could set to 1 but we leave some slots open incase we
+# Allow 3 replicators.  We could set to 1 but let's leave some slots open incase we
 # need them for various management purposes such as creating a new master or slave
 sed -i -e "s/#max_replication_slots = 0/max_replication_slots = 3/" $PG_CONF
 sed -i -e "s/#max_wal_senders = 0/max_wal_senders = 3/" $PG_CONF
 echo "set rep slots"
 
- # Set wal segments to 160 MB, This affects much data there is for the replicator
- # should the replicator go offline for a time.
+ # Set wal segments to 160 MB, This affects much data there is for recovery
+ # should the replicator go offline for a short time.
 sed -i -e "s/#checkpoint_segments = 3/checkpoint_segments = 10/" $PG_CONF
 sed -i -e "s/#wal_keep_segments = 0/wal_keep_segments = 10/" $PG_CONF
 
@@ -96,14 +96,12 @@ echo "set segments"
 
 # Set Write Ahead Log to hot_standby
 sed -i -e "s/#wal_level = minimal/wal_level = hot_standby/" $PG_CONF
-echo "set wal level"
 
 # Allow 3 replicators.  We could set to 1 but we leave some slots open incase we
 # need them for various management purposes such as creating a new master or slave
 sed -i -e "s/#max_replication_slots = 0/max_replication_slots = 3/" $PG_CONF
-echo "set rep slots"
 
  # Set wal segments to 160 MB, This affects much data there is for the replicator
- # should the replicator go offline for a time.
+ # should the replicator go offline or the network hiccup.
 sed -i -e "s/#checkpoint_segments = 3/checkpoint_segments = 10/" $PG_CONF
 sed -i -e "s/#wal_keep_segments = 0/wal_keep_segments = 10/" $PG_CONF
