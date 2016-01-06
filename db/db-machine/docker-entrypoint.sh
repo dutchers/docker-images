@@ -6,6 +6,9 @@ set_listen_addresses() {
 	sed -ri "s/^#?(listen_addresses\s*=\s*)\S+/\1'$sedEscapedValue'/" "$PGDATA/postgresql.conf"
 }
 
+
+echo "in entrypoint"
+
 if [ "$1" = 'postgres' ]; then
 	mkdir -p "$PGDATA"
 	chown -R postgres "$PGDATA"
@@ -73,7 +76,7 @@ if [ "$1" = 'postgres' ]; then
 		echo
 
 		echo
-		echo "hello world"
+		echo "about to loop init files"
 		for f in /docker-entrypoint-initdb.d/*; do
 			echo $f
 			case "$f" in
@@ -84,7 +87,9 @@ if [ "$1" = 'postgres' ]; then
 			echo
 		done
 
-		gosu postgres pg_ctl -D "$PGDATA" -m fast -w stop
+		if [ -e "$PGDATA/postmaster.pid" ]; then
+			gosu postgres pg_ctl -D "$PGDATA" -m fast -w stop
+		fi
 		set_listen_addresses '*'
 
 		echo

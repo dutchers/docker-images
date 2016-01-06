@@ -30,7 +30,6 @@ RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys B97B0AFCAA1A4
 ENV PG_MAJOR 9.4
 ENV PG_VERSION 9.4.5-1.pgdg80+1
 
-
 RUN apt-get update \
 	&& apt-get install -y postgresql-common \
 	&& sed -ri 's/#(create_main_cluster) .*$/\1 = false/' /etc/postgresql-common/createcluster.conf \
@@ -46,6 +45,10 @@ ENV PATH /usr/lib/postgresql/$PG_MAJOR/bin:$PATH
 ENV PGDATA /var/lib/postgresql/data
 VOLUME /var/lib/postgresql/data
 
+#RUN echo "hello"
+#RUN echo "hello"
+#RUN echo "hello"
+RUN echo "hello"
 
 COPY docker-entrypoint.sh /
 COPY master.sh /docker-entrypoint-initdb.d/master.sh
