@@ -44,10 +44,7 @@ RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -
 
 COPY ./zshrc /home/developer/.zshrc
 COPY red-docker.zsh-theme .oh-my-zsh/themes/
-
 COPY ./bashrc /home/developer/.bashrc
-COPY ./bashrc /home/developer/.bashrc
-
 COPY ./vimrc /home/developer/.vimrc
 
 CMD ["/bin/zsh"]
