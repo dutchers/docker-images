@@ -1,6 +1,6 @@
 masterdb:
     image: ff0000/db-machine:latest
-    environment:
+    environment: &environment
         REPLICATION_ROLE: master
         DATABASE: project_database
         # Next variable is going to create a db with same name
@@ -13,10 +13,7 @@ masterdb:
         - "5432"
 slavedb:
     image: ff0000/db-machine:latest
-    environment:
-        REPLICATION_ROLE: slave
-        REPLICATION_USER: replication_user
-        REPLICATION_PASSWORD: IAMNOTSECURE
+    environment: *environment
     ports:
         - "5432"
     links:
