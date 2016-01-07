@@ -1,0 +1,23 @@
+# Debugging always the latest
+pdb
+ipython[all]
+newrelic
+
+# RED Stuff
+scarlet==1.2.3
+red_fab_deploy2==0.2.5
+
+# Data
+redis==2.10.5
+django-redis-cache==1.6.5
+
+# REST API
+djangorestframework==3.3.2
+
+# Search
+pysolr==3.2.0
+django-haystack==2.3.1
+whoosh==2.6.0
+
+# App Server
+gunicorn==19.4.0
