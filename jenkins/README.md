@@ -104,7 +104,7 @@ want to see *log* information there, you can run the following command:
 $ docker exec jenkins-server tail -f /var/log/jenkins/jenkins.log
 ```
 
-### How to get log file is Jenkins crashes
+### How to get log file when Jenkins crashes
 
 ```
 $ docker-compose -f dev.yml stop
