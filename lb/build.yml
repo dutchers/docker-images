@@ -1,0 +1,61 @@
+# Builds dev-machine from specified Dockerfile
+# Intended for development and testing of dev-machine image
+masterdb:
+    image: ff0000/db-machine:latest
+    environment: &environment
+        REPLICATION_ROLE: master
+        DATABASE: project_database
+        # Next variable is going to create a db with same name
+        POSTGRES_PASSWORD: IAMNOTSECURE
+        PROJECT_USER: project_user
+        PROJECT_PASSWORD: IAMNOTSECURE
+        REPLICATION_USER: replication_user
+        REPLICATION_PASSWORD: IAMNOTSECURE
+    expose:
+        - "5432"
+slavedb:
+    image: ff0000/db-machine:latest
+    environment:
+        <<: *environment
+        REPLICATION_ROLE: slave
+    ports:
+        - "5432"
+    links:
+        - masterdb
+redis:
+    image: redis:3
+appa:
+    image: ff0000/app-machine:latest
+    name: appserver
+    tty: true
+    stdin_open: true
+    command: /usr/bin/supervisord
+    ports:
+        - "80"
+    links:
+        - masterdb
+        - slavedb
+        - redis
+appb:
+    image: ff0000/app-machine:latest
+    name: appserver
+    tty: true
+    stdin_open: true
+    command: /usr/bin/supervisord
+    ports:
+        - "80"
+    links:
+        - masterdb
+        - slavedb
+        - redis
+lb:
+    build: lb-machine
+    command: /usr/bin/supervisord
+    tty: true
+    stdin_open: true
+    name: loadbalancer
+    ports:
+        - "80"
+    links:
+        - appa
+        - appb
