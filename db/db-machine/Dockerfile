@@ -45,9 +45,7 @@ ENV PATH /usr/lib/postgresql/$PG_MAJOR/bin:$PATH
 ENV PGDATA /var/lib/postgresql/data
 VOLUME /var/lib/postgresql/data
 
-#RUN echo "hello"
-#RUN echo "hello"
-#RUN echo "hello"
+RUN echo "hello"
 RUN echo "hello"
 
 COPY docker-entrypoint.sh /

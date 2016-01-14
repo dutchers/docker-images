@@ -49,3 +49,10 @@ yo red-django
 ```
 
 Please delete the tmp directory and don't commit it back once you are done.
+
+
+export DOCKER_CERT_PATH=/home/vance/.sdc/docker/adtech
+export DOCKER_HOST=tcp://us-sw-1.docker.joyent.com:2376
+export DOCKER_CLIENT_TIMEOUT=600
+export COMPOSE_HTTP_TIMEOUT=600
+export DOCKER_TLS_VERIFY=1

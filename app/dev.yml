@@ -1,26 +1,39 @@
-# Pulls dev-machine from dockerhub
-# Intended for developing websites
-projectdb:
-    image: mdillon/postgis
-    environment:
-        POSTGRES_PASSWORD: replace_me
+# Builds dev-machine from specified Dockerfile
+# Intended for development and testing of dev-machine image
+masterdb:
+    image: ff0000/db-machine:latest
+    environment: &environment
+        REPLICATION_ROLE: master
+        DATABASE: project_database
         # Next variable is going to create a db with same name
-        POSTGRES_USER: project
+        POSTGRES_PASSWORD: IAMNOTSECURE
+        PROJECT_USER: project_user
+        PROJECT_PASSWORD: IAMNOTSECURE
+        REPLICATION_USER: replication_user
+        REPLICATION_PASSWORD: IAMNOTSECURE
+    expose:
+        - "5432"
+slavedb:
+    image: ff0000/db-machine:latest
+    environment:
+        <<: *environment
+        REPLICATION_ROLE: slave
     ports:
-        - "5432:5432"
-projectredis:
-    image: redis:2.8
-projectdev:
-    image: ff0000/dev-machine
-    hostname: project-dev
-    command: /bin/bash
+        - "5432"
+    links:
+        - masterdb
+redis:
+    image: redis:3
+app:
+    image: ff0000/app-machine:latest
+    name: appserver
     tty: true
     stdin_open: true
-    volumes:
-        - ../../:/srv/active
+    command: /usr/bin/supervisord
     ports:
-        - "8000:8000"
-        - "80:80"
+        - "8000"
+        - "80"
     links:
-        - projectdb
-        - projectredis
+        - masterdb
+        - slavedb
+        - redis

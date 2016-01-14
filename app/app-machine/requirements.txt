@@ -4,8 +4,10 @@ ipython[all]
 newrelic
 
 # RED Stuff
-scarlet==1.2.3
-red_fab_deploy2==0.2.5
+#scarlet==1.2.3
+#red_fab_deploy2==0.2.5
+
+django>=1.9.1
 
 # Data
 redis==2.10.5

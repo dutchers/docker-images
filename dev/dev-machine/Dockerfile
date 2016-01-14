@@ -19,12 +19,15 @@
 
 FROM ff0000/base-machine:latest
 
+FROM ff0000/base-machine:latest
+MAINTAINER RED Interactive Agency <geeks@ff0000.com>
+
 # base machine sets up the developer user revert to root for
 # building
 USER root
 WORKDIR /
 
-ENV NODE_VERSION  4.2.3
+ENV NODE_VERSION  4.2.4
 
 # Nothing works if you don't do this first
 RUN apt-get update && apt-get upgrade -y
@@ -85,6 +88,6 @@ WORKDIR /home/developer
 
 VOLUME /srv/active
 
-EXPOSE 8000 80
+EXPOSE 8000 80 3000 3001
 
 CMD ["/bin/bash"]

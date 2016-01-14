@@ -1,15 +1,18 @@
 # Builds dev-machine from specified Dockerfile
 # Intended for development and testing of dev-machine image
 projectdb:
-    image: mdillon/postgis
-    environment:
-        POSTGRES_PASSWORD: replace_me
-        # Next variable is going to create a db with same name
-        POSTGRES_USER: project
+    image: ff0000/db-machine:latest
+    environment: 
+        REPLICATION_ROLE: standalone
+        DATABASE: project_database
+        POSTGRES_PASSWORD: IAMNOTSECURE
+        # Let not connect as the postgres user .. that'd be bad.
+        PROJECT_USER: project_user
+        PROJECT_PASSWORD: IAMNOTSECURE
     ports:
         - "5432:5432"
 projectredis:
-    image: redis:2.8
+    image: redis:3
 projectdev:
     build: dev-machine
     command: /bin/bash
@@ -20,6 +23,8 @@ projectdev:
         - ../:/srv/active
     ports:
         - "8000:8000"
+        - "3001:3001"
+        - "3000:3000"
     links:
         - projectdb
         - projectredis

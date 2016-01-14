@@ -6,6 +6,7 @@
 FROM debian:8
 
 ENV DEBIAN_FRONTEND noninteractive
+MAINTAINER RED Interactive Agency <geeks@ff0000.com>
 
 # Nothing works if you don't do this first
 RUN apt-get update && apt-get upgrade -y

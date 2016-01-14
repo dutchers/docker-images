@@ -4,6 +4,22 @@ set -e
 PG_HBA="$PGDATA/pg_hba.conf"
 PG_CONF="$PGDATA/postgresql.conf"
 
+
+
+if [ $REPLICATION_ROLE == 'standalone' ]; then
+    # The below is not indented because bash demands tabs for continuation lines
+
+    # Create database and user with limited proviliges
+    psql --username postgres <<-EOSQL
+       CREATE DATABASE ${DATABASE};
+       CREATE ROLE ${PROJECT_USER} ENCRYPTED PASSWORD '${PROJECT_PASSWORD}' NOSUPERUSER NOCREATEDB NOCREATEROLE INHERIT LOGIN;
+       GRANT ALL PRIVILEGES ON DATABASE ${DATABASE} to ${PROJECT_USER};
+EOSQL
+
+    echo "set project data user"
+
+fi
+
 if [ $REPLICATION_ROLE == 'master' ]; then
     # The below is not indented because bash demands tabs for continuation lines
 
@@ -67,7 +83,7 @@ EOS
 fi
 
 ##
-## Below applies to both servers
+## Below applies to all servers
 ##
 
 # Setting to 0.0.0.0 cause networks are adhoc.
