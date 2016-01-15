@@ -26,7 +26,8 @@ RUN mkdir /opt/local
 
 # Install base tools
 RUN apt-get install -y wget curl htop ntp vim build-essential \
-    git-core tmux supervisor zsh sudo libzmq3-dev gettext man psmisc
+    git-core tmux supervisor zsh sudo libzmq3-dev gettext man psmisc \
+    rsyslog cron
 
 # Do a bunch of stuff because yeoman has opinions instead of education
 # Sorry folks you are condemened to typing sudo in front of everything
