@@ -11,15 +11,11 @@ masterdb:
         PROJECT_PASSWORD: IAMNOTSECURE
         REPLICATION_USER: replication_user
         REPLICATION_PASSWORD: IAMNOTSECURE
-    expose:
-        - "5432"
 slavedb:
     image: ff0000/db-machine:latest
     environment:
         <<: *environment
         REPLICATION_ROLE: slave
-    ports:
-        - "5432"
     links:
         - masterdb
 redis:
@@ -46,9 +42,7 @@ appb:
         - redis
 lb:
     image: ff0000/lb-machine:latest
-    command: haproxy -f /etc/haproxy/haproxy.cfg
-    tty: true
-    stdin_open: true
+    command: /usr/bin/supervisord
     name: loadbalancer
     ports:
         - "80"
