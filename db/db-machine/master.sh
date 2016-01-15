@@ -86,6 +86,10 @@ fi
 ## Below applies to all servers
 ##
 
+
+# This is getting long enough that we may want to simply supply our own
+# postgresql.conf file.
+
 # Setting to 0.0.0.0 cause networks are adhoc.
 # TODO: Figure out how to pull the network from the ifconfig or test using link to feed slave to master.
 # Not secuirty problem unless you expose 5432 to the world, which you should never do.
@@ -121,3 +125,6 @@ sed -i -e "s/#max_replication_slots = 0/max_replication_slots = 3/" $PG_CONF
  # should the replicator go offline or the network hiccup.
 sed -i -e "s/#checkpoint_segments = 3/checkpoint_segments = 10/" $PG_CONF
 sed -i -e "s/#wal_keep_segments = 0/wal_keep_segments = 10/" $PG_CONF
+
+# This is the internet if a query takes longer than a second we need to know about it.
+sed -i -e "s/#log_min_duration_statement = -1/log_min_duration_statement = 1000/" $PG_CONF
