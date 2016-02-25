@@ -27,7 +27,9 @@ MAINTAINER RED Interactive Agency <geeks@ff0000.com>
 USER root
 WORKDIR /
 
-ENV NODE_VERSION  4.2.4
+
+# Set the Node Version you want. I believe FE is currently pegged to .12.x
+ENV NODE_VERSION  0.12.10
 
 # Nothing works if you don't do this first
 RUN apt-get update && apt-get upgrade -y
@@ -75,13 +77,31 @@ RUN curl -O http://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.
     tar -zxf node-v$NODE_VERSION-linux-x64.tar.gz && \
     rm node-v$NODE_VERSION-linux-x64.tar.gz  && \
     cp -r node-v$NODE_VERSION-linux-x64 /opt/local/ && \
-    ln -s /opt/local/node-v$NODE_VERSION-linux-x64/bin/node /usr/local/bin/ && \
-    ln -s /opt/local/node-v$NODE_VERSION-linux-x64/bin/npm /usr/local/bin/
+
+# Add Node stuff to PATH
+RUN echo "export PATH=$PATH:/opt/local/node-v$NODE_VERSION-linux-x64/bin" >> /home/developer/.zshrc
 
 # set npm global node_modules
 RUN echo "prefix = /srv/.npm-packages" >> /etc/npmrc
 
+
+# Docker
+RUN apt-get -y update && apt-get -y upgrade
+RUN apt-get -y install apt-transport-https
+RUN echo "deb https://apt.dockerproject.org/repo debian-jessie main" > /etc/apt/sources.list.d/docker.list
+RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+RUN cat /etc/apt/sources.list.d/docker.list
+RUN apt-get -y update
+RUN apt-get -y install docker-engine
+
+# docker-compose
+RUN curl -L https://github.com/docker/compose/releases/download/1.6.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+RUN chmod +x /usr/local/bin/docker-compose
+
 RUN /usr/local/bin/npm install -g yo bower grunt-cli pngjs
+
+COPY ./bin/ /usr/local/bin/
+RUN chmod 755 /usr/local/bin/*
 
 USER developer
 WORKDIR /home/developer

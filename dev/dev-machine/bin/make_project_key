@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Name says it. Create a project key with the first argument passed in.
+# You must then add the public key to the joyent interface.
+# This needs to be run before you run the sdc-setup script so that you have
+# a key for sdc-setup to use.
+
+KEY_DIR=/srv/active/deploy/keys
+
+if [ -d "$KEY_DIR" ]; then
+    ssh-keygen -t rsa -N "" -f $KEY_DIR/$1.key
+    cp -r $KEY_DIR/$1.key /home/developer/.ssh/$1.key
+    cp -r $KEY_DIR/$1.key.pub /home/developer/.ssh/$1.key.pub
+    echo "Key created successfully. We also copied the key to /home/developer/.ssh/id_rsa"
+    echo "If you wish to deploy this project into production you will need to put the following public key into your joyent account."
+    cat /home/developer/.ssh/$1.key.pub
+else
+    echo "Key directory at /srv/active/deploy/keys does not exist! Have you bootstrapped this project?"
+fi
