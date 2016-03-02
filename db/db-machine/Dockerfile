@@ -40,12 +40,18 @@ RUN apt-get update \
 	&& rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /var/run/postgresql && chown -R postgres /var/run/postgresql
+RUN mkdir /srv/configs
 
 ENV PATH /usr/lib/postgresql/$PG_MAJOR/bin:$PATH
 ENV PGDATA /var/lib/postgresql/data
 
+
+COPY pg_backup_rotated.sh /usr/local/bin/pg_backup
+COPY pg_backup.config /srv/configs/pg_backup.config
 COPY docker-entrypoint.sh /
-COPY master.sh /docker-entrypoint-initdb.d/master.sh
+COPY set_role.sh /docker-entrypoint-initdb.d/set_role.sh
+
+RUN chmod 755 /usr/local/bin/pg_backup
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
