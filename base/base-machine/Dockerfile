@@ -1,6 +1,7 @@
 #
 # Base base-machine for building images for RED Interactive Agency
-# All images should inherit from this image.
+# All images should inherit from this image. Any change you make
+# to this image will impact every child image. Be mindful.
 #
 
 FROM debian:8
@@ -25,7 +26,7 @@ RUN dpkg-reconfigure locales
 RUN mkdir /opt/local
 
 # Install base tools
-RUN apt-get install -y wget curl htop ntp vim build-essential \
+RUN apt-get install -y wget curl htop vim build-essential \
     git-core tmux supervisor zsh sudo libzmq3-dev gettext man psmisc \
     rsyslog cron
 
@@ -38,6 +39,7 @@ ENV HOME /home/developer
 RUN chown developer:developer /srv
 USER developer
 WORKDIR /home/developer
+RUN mkdir /home/developer/.ssh
 
 # Install oh-my-zsh
 # Most every dev here is using this so may as well include it.
