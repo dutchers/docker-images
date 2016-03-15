@@ -63,26 +63,28 @@ COPY ./gunicorn /srv/configs/gunicorn
 
 # Python things we don't want to waste time compiling
 # virtualenv, is deprecated. Our current tools need it though so it's here.
-RUN apt-get install -y python3 python3-dev python3-pip python3-pillow \
-    python3-psycopg2
+RUN apt-get install -y python python-dev python-pip python-pillow \
+    python-psycopg2
 
 COPY ./requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
+RUN pip install -r requirements.txt
+
+ENV DJANGO_SETTINGS_MODULE config.settings.production
 
 # Installing `node` and `npm`
-RUN curl -O http://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz && \
-    tar -zxf node-v$NODE_VERSION-linux-x64.tar.gz && \
-    rm node-v$NODE_VERSION-linux-x64.tar.gz  && \
-    cp -r node-v$NODE_VERSION-linux-x64 /opt/local/ && \
-    ln -s /opt/local/node-v$NODE_VERSION-linux-x64/bin/node /usr/local/bin/ && \
-    ln -s /opt/local/node-v$NODE_VERSION-linux-x64/bin/npm /usr/local/bin/
+# RUN curl -O http://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz && \
+#     tar -zxf node-v$NODE_VERSION-linux-x64.tar.gz && \
+#     rm node-v$NODE_VERSION-linux-x64.tar.gz  && \
+#     cp -r node-v$NODE_VERSION-linux-x64 /opt/local/ && \
+#     ln -s /opt/local/node-v$NODE_VERSION-linux-x64/bin/node /usr/local/bin/ && \
+#     ln -s /opt/local/node-v$NODE_VERSION-linux-x64/bin/npm /usr/local/bin/
 
-RUN npm install -g npm
+#RUN npm install -g npm
 
 # set npm global node_modules
-RUN echo "prefix = /srv/.npm-packages" >> /etc/npmrc
+#RUN echo "prefix = /srv/.npm-packages" >> /etc/npmrc
 
-RUN /usr/local/bin/npm install -g yo bower grunt-cli pngjs
+#RUN /usr/local/bin/npm install -g yo bower grunt-cli pngjs
 
 EXPOSE 80
 
