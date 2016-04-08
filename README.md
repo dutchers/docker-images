@@ -4,6 +4,26 @@ This repo is intended to provide the base images and example compose files for p
 
 Our docker images are versioned. Versions are reflected in the tags. Tags match releases in github. If a given project calls for version 0.1 of our docker image it can be pulled and run by using the tag name. However the dev.yml file and docker compose should do this for you.
 
+## Image Summaries
+
+<dl>
+  <dt>base-machine</dt>
+  <dd>Contains basic tools and libs common to all environments.</dd>
+
+  <dt>dev-machine</dt>
+  <dd>Use for development. Contains build tools, server environment, and mounts your local directory.</dd>
+
+  <dt>db-machine</dt>
+  <dd>PostreSQL 9.4. Supports Master/Slave and Standalone configurations.</dd>
+
+  <dt>app-machine</dt>
+  <dd>Application server for production use. Runs gunicorn, and nginx.</dd>
+
+  <dt>lb-machine</dt>
+  <dd>Load Balancer. Runs nginx. Yes haproxy would have been better... see machine docs.</dd>
+</dl>
+
+
 ## Personalizing Your Dev Environment
 
 When you you spend all day working on code, you are bound to customize your work environment. We encourage this. The best way to pull this off is to create a local Dockerfile and/or compose file that extends our base image as such.
