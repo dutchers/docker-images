@@ -103,6 +103,15 @@ RUN /usr/local/bin/npm install -g yo bower grunt-cli pngjs
 COPY ./bin/ /usr/local/bin/
 RUN chmod 755 /usr/local/bin/*
 
+RUN echo -e "alias djr='python /srv/active/project/manage.py runserver 0.0.0.0:8000' \n \
+    alias djmm='python /srv/active/project/manage.py migrate' \n \
+    alias djm='python /srv/active/project/manage.py makemigrations' \n \
+    alias djcs='python /srv/active/project/manage.py createsuperuser' \n \
+    alias djs='python /srv/active/project/manage.py shell_plus' \n \
+    alias djm='python /srv/active/project/manage.py dbshell'" >> /home/developer/.zshrc
+
+RUN chown -R developer:developer /home/developer
+
 USER developer
 WORKDIR /home/developer
 

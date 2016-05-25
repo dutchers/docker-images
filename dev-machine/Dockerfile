@@ -120,6 +120,17 @@ RUN sed -i -e 's/# export LS_OPTIONS=/export LS_OPTIONS=/g' /home/developer/.bas
     sed -i -e 's/# alias ll/alias ll/g' /home/developer/.bashrc && \
     sed -i -e 's/# alias ls/alias ls/g' /home/developer/.bashrc
 
+
+
+RUN echo -e "alias djr='python /srv/active/project/manage.py runserver 0.0.0.0:8000' \n \
+    alias djmm='python /srv/active/project/manage.py migrate' \n \
+    alias djm='python /srv/active/project/manage.py makemigrations' \n \
+    alias djcs='python /srv/active/project/manage.py createsuperuser' \n \
+    alias djs='python /srv/active/project/manage.py shell_plus' \n \
+    alias djm='python /srv/active/project/manage.py dbshell'" >> /home/developer/.zshrc
+
+RUN chown -R developer:developer /home/developer
+
 VOLUME /srv/active
 
 EXPOSE 8000 80
