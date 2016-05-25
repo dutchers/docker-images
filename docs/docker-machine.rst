@@ -3,8 +3,7 @@ About docker-machine
 
 docker-machine is used to manage virtual machines which can host docker
 instances. It can be used to spin up docker hosts in Google Compute Engine, AWS,
-and other platform providers. While in general this the kind of idea only person
-invested in bad technology would make, it's useful for developers who want the
+and other platform providers. It's also useful for developers who want the
 convenience of docker on OS's like Mac and Windows. docker-machine allows those
 users to spin up one lightweight VM to host all their docker containers.
 
@@ -12,9 +11,7 @@ users to spin up one lightweight VM to host all their docker containers.
 Download and Install for OS X
 =============================
 
-docker-machine is distributed with docker 1.8+ which you should install with brew. If you
-don't have brew you consider opening up Powerpoint and making presentations for a
-living.
+docker-machine is distributed with docker 1.8+ which you should install with brew. 
 
 :code:`brew install docker`
 
