@@ -20,7 +20,7 @@
 FROM debian:8
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV NODE_VERSION  0.10.36
+ENV NODE_VERSION  0.12.10
 
 # Nothing works if you don't do this first
 RUN apt-get update && apt-get upgrade -y
@@ -88,8 +88,7 @@ RUN echo "prefix = /srv/.npm-packages" >> /etc/npmrc
 RUN wget http://npmjs.org/install.sh && chmod +x install.sh && \
     ./install.sh && rm install.sh
 
-RUN npm install -g npm@2.8.3 && \
-    npm install -g yo@1.4.6 bower@1.4.1 grunt-cli@0.1.13 && \
+RUN npm install -g yo bower grunt-cli && \
     npm install -g generator-red-django@0.6.0 && \
     npm install -g generator-red-static@0.6.0 && \
     npm install -g pngjs@0.4.0 && \
@@ -100,6 +99,11 @@ RUN npm install -g npm@2.8.3 && \
 RUN adduser --disabled-password --gecos "" developer && \
       echo "developer ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
+COPY ./zshrc /home/developer/.zshrc
+COPY red-docker.zsh-theme .oh-my-zsh/themes/
+
+RUN chown -R developer:developer /home/developer
+
 ENV HOME /home/developer
 RUN chown developer:developer /srv
 USER developer
@@ -108,17 +112,23 @@ WORKDIR /home/developer
 # Install oh-my-zsh
 # Most every dev here is using this so may as well include it.
 # Do not mess with themes.
-RUN wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh
-RUN sed -i -e '30,52d' ./install.sh
-RUN sh ./install.sh
+RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
 
-COPY ./zshrc /home/developer/.zshrc
-COPY red-docker.zsh-theme .oh-my-zsh/themes/
 
 # So you don't like zsh here's some bash for ya
 RUN sed -i -e 's/# export LS_OPTIONS=/export LS_OPTIONS=/g' /home/developer/.bashrc && \
     sed -i -e 's/# alias ll/alias ll/g' /home/developer/.bashrc && \
     sed -i -e 's/# alias ls/alias ls/g' /home/developer/.bashrc
+
+
+RUN echo "alias djr='python /srv/active/project/manage.py runserver 0.0.0.0:8000' \n \
+    alias djmm='python /srv/active/project/manage.py migrate' \n \
+    alias djm='python /srv/active/project/manage.py makemigrations' \n \
+    alias djcs='python /srv/active/project/manage.py createsuperuser' \n \
+    alias djs='python /srv/active/project/manage.py shell_plus' \n \
+    alias djm='python /srv/active/project/manage.py dbshell'" >> /home/developer/.zshrc
+
+RUN chown -R developer:developer /home/developer
 
 VOLUME /srv/active
 

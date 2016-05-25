@@ -11,7 +11,7 @@ projectdb:
 projectredis:
     image: redis:2.8
 projectdev:
-    image: ff0000/dev-machine
+    image: ff0000/dev-machine:0.1.1
     hostname: project-dev
     command: /bin/bash
     tty: true
