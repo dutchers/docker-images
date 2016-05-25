@@ -20,7 +20,7 @@
 FROM debian:8
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV NODE_VERSION  0.12.10
+ENV NODE_VERSION  4.4.5
 
 # Nothing works if you don't do this first
 RUN apt-get update && apt-get upgrade -y
@@ -80,8 +80,8 @@ RUN pip install -r requirements.txt
 RUN curl -O http://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz && \
     tar -zxf node-v$NODE_VERSION-linux-x64.tar.gz && \
     rm node-v$NODE_VERSION-linux-x64.tar.gz && \
-    mv node-v$NODE_VERSION-linux-x64 /opt/local/ && \
-    ln -s /opt/local/node-v$NODE_VERSION-linux-x64/bin/node /usr/local/bin/
+    mv node-v$NODE_VERSION-linux-x64 /opt/local/
+ENV PATH /opt/local/node-v$NODE_VERSION-linux-x64/bin:$PATH
 
 # set npm global node_modules
 RUN echo "prefix = /srv/.npm-packages" >> /etc/npmrc
@@ -121,7 +121,8 @@ RUN sed -i -e 's/# export LS_OPTIONS=/export LS_OPTIONS=/g' /home/developer/.bas
     sed -i -e 's/# alias ls/alias ls/g' /home/developer/.bashrc
 
 
-RUN echo "alias djr='python /srv/active/project/manage.py runserver 0.0.0.0:8000' \n \
+RUN echo "export PATH=$PATH:/opt/local/node-v$NODE_VERSION-linux-x64/bin \n \
+    alias djr='python /srv/active/project/manage.py runserver 0.0.0.0:8000' \n \
     alias djmm='python /srv/active/project/manage.py migrate' \n \
     alias djm='python /srv/active/project/manage.py makemigrations' \n \
     alias djcs='python /srv/active/project/manage.py createsuperuser' \n \
