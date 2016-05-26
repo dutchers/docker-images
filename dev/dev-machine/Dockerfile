@@ -29,7 +29,7 @@ WORKDIR /
 
 
 # Set the Node Version you want. I believe FE is currently pegged to .12.x
-ENV NODE_VERSION  0.12.10
+ENV NODE_VERSION  4.4.5
 
 # Nothing works if you don't do this first
 RUN apt-get update && apt-get upgrade -y
@@ -76,13 +76,15 @@ RUN pip install -r requirements.txt
 RUN curl -O http://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz && \
     tar -zxf node-v$NODE_VERSION-linux-x64.tar.gz && \
     rm node-v$NODE_VERSION-linux-x64.tar.gz  && \
-    cp -r node-v$NODE_VERSION-linux-x64 /opt/local/ && \
+    cp -r node-v$NODE_VERSION-linux-x64 /opt/local/
+ENV PATH /opt/local/node-v$NODE_VERSION-linux-x64/bin:$PATH
 
 # Add Node stuff to PATH
 RUN echo "export PATH=$PATH:/opt/local/node-v$NODE_VERSION-linux-x64/bin" >> /home/developer/.zshrc
 
 # set npm global node_modules
 RUN echo "prefix = /srv/.npm-packages" >> /etc/npmrc
+RUN npm install -g bower grunt-cli pngjs webpack webpack-dev-server
 
 
 # Docker
@@ -98,17 +100,17 @@ RUN apt-get -y install docker-engine
 RUN curl -L https://github.com/docker/compose/releases/download/1.6.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
 RUN chmod +x /usr/local/bin/docker-compose
 
-RUN /usr/local/bin/npm install -g yo bower grunt-cli pngjs
 
 COPY ./bin/ /usr/local/bin/
 RUN chmod 755 /usr/local/bin/*
 
-RUN echo -e "alias djr='python /srv/active/project/manage.py runserver 0.0.0.0:8000' \n \
-    alias djmm='python /srv/active/project/manage.py migrate' \n \
-    alias djm='python /srv/active/project/manage.py makemigrations' \n \
+RUN echo "export PATH=$PATH:/opt/local/node-v$NODE_VERSION-linux-x64/bin \n \
+    alias djr='python /srv/active/project/manage.py runserver 0.0.0.0:8000' \n \
+    alias djm='python /srv/active/project/manage.py migrate' \n \
+    alias djmm='python /srv/active/project/manage.py makemigrations' \n \
     alias djcs='python /srv/active/project/manage.py createsuperuser' \n \
     alias djs='python /srv/active/project/manage.py shell_plus' \n \
-    alias djm='python /srv/active/project/manage.py dbshell'" >> /home/developer/.zshrc
+    alias djdb='python /srv/active/project/manage.py dbshell'" >> /home/developer/.zshrc
 
 RUN chown -R developer:developer /home/developer
 
