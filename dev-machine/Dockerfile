@@ -123,11 +123,11 @@ RUN sed -i -e 's/# export LS_OPTIONS=/export LS_OPTIONS=/g' /home/developer/.bas
 
 RUN echo "export PATH=$PATH:/opt/local/node-v$NODE_VERSION-linux-x64/bin \n \
     alias djr='python /srv/active/project/manage.py runserver 0.0.0.0:8000' \n \
-    alias djmm='python /srv/active/project/manage.py migrate' \n \
-    alias djm='python /srv/active/project/manage.py makemigrations' \n \
+    alias djm='python /srv/active/project/manage.py migrate' \n \
+    alias djmm='python /srv/active/project/manage.py makemigrations' \n \
     alias djcs='python /srv/active/project/manage.py createsuperuser' \n \
     alias djs='python /srv/active/project/manage.py shell_plus' \n \
-    alias djm='python /srv/active/project/manage.py dbshell'" >> /home/developer/.zshrc
+    alias djdb='python /srv/active/project/manage.py dbshell'" >> /home/developer/.zshrc
 
 RUN chown -R developer:developer /home/developer
 
