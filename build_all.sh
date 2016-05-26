@@ -12,7 +12,7 @@ cd ../db
 docker build --no-cache -t=ff0000/db-machine:latest db-machine
 
 cd ../dev
-docker build --no-cache -t=ff0000/dev-machine:0.2 dev-machine
+docker build --no-cache -t=ff0000/dev-machine:0.2.1 dev-machine
 
 cd ../app
 docker build --no-cache -t=ff0000/app-machine:latest app-machine

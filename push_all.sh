@@ -8,7 +8,7 @@ docker push ff0000/base-machine:latest
 
 docker push ff0000/db-machine:latest
 
-docker push ff0000/dev-machine:0.2
+docker push ff0000/dev-machine:0.2.1
 
 docker push ff0000/app-machine:latest
 
