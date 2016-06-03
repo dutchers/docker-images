@@ -1,5 +1,9 @@
-About docker-machine
+Docker
 --------------------
+
+Docker on OS X requires a virtual machine manager. We use Virtualbox the below
+will walk you through the process of getting docker up and running on a computer
+running OS X. The primary toold for set up is docker-machine.
 
 docker-machine is used to manage virtual machines which can host docker
 instances. It can be used to spin up docker hosts in Google Compute Engine, AWS,
@@ -11,14 +15,16 @@ users to spin up one lightweight VM to host all their docker containers.
 Download and Install for OS X
 =============================
 
-docker-machine is distributed with docker 1.8+ which you should install with brew. 
+First install the latest verision of VirtualBox.
+
+Each of the docker tools is installed individually on OS X.
 
 :code:`brew install docker`
+:code:`brew install docker-machine`
+:code:`brew install docker-compose`
 
-The other requirement is Virtualbox 4 so install that from
-https://www.virtualbox.org/wiki/Download_Old_Builds_4_3.
-
-Next create a host to house your docker instances:
+Next create a host to house your docker instances we specifiy the host IP to avoid
+network conflicts. If this IP conflicts with addresses on your network choose another:
 
 :code:`docker-machine create --virtualbox-hostonly-cidr "192.168.240.1/24" --driver virtualbox dev`
 
@@ -33,7 +39,10 @@ With that you can run docker images... but if you want to work use them to work 
 files or provide access to users that on your computer - say for looking at webpage - you've
 got a few more steps.
 
-Let's mount your /Users directory into the VirtualBox instance
+Let's mount your /Users directory into the VirtualBox instance. If you keep your
+projects somewhere else you can substitue that directory. Don't work, so long as
+where you are running your docker-compose commands from is a subpath of the directory
+it will work.
 
 .. code:: bash
 
@@ -68,3 +77,9 @@ accessible to the world.
 .. figure:: screenshots/vb-port-forward-initial.png
     :width: 550px
     :align: center
+
+
+
+After completing this you'll need to get teh environment again.
+
+:code:`eval "$(docker-machine env dev)"`
