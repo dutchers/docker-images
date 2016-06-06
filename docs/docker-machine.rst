@@ -22,6 +22,7 @@ Each of the docker tools is installed individually on OS X.
 :code:`brew install docker`
 :code:`brew install docker-machine`
 :code:`brew install docker-compose`
+:code:`brew install docker-machine-nfs`
 
 Next create a host to house your docker instances we specifiy the host IP to avoid
 network conflicts. If this IP conflicts with addresses on your network choose another:
@@ -30,7 +31,7 @@ network conflicts. If this IP conflicts with addresses on your network choose an
 
 You now have a virtualbox instance running the boot2docker.iso. This instace has the docker
 server tools installed and will accept commands from the docker client running your local
-command line. To configure the local docker command tos talk to the virtualbox docker server
+command line. To configure the local docker command to talk to the virtualbox docker server
 follow the output from the previous command, which tells you to this:
 
 :code:`eval "$(docker-machine env dev)"`
@@ -40,15 +41,13 @@ files or provide access to users that on your computer - say for looking at webp
 got a few more steps.
 
 Let's mount your /Users directory into the VirtualBox instance. If you keep your
-projects somewhere else you can substitue that directory. Don't work, so long as
+projects somewhere else you can substitue that directory. Don't worry, so long as
 where you are running your docker-compose commands from is a subpath of the directory
-it will work.
+it will work. If you'd like to mount a directory outside of /Users read the docs
+here: https://github.com/adlogix/docker-machine-nfs otherwise execute the following:
 
-.. code:: bash
+:code:`docker-machine-nfs dev`
 
-  docker-machine stop dev
-  VBoxManage sharedfolder add dev --name /Users --hostpath /Users
-  docker-machine start dev
 
 Port Forwarding
 ###############
