@@ -48,6 +48,16 @@ here: https://github.com/adlogix/docker-machine-nfs otherwise execute the follow
 
 :code:`docker-machine-nfs dev`
 
+**Note:** If you are running a tool that supports kernel based filesystem
+notifications you will need to change it's configuration to use polling instead.
+webpack does this by default. Add the following to your webpack config:
+
+.. code:: javascript
+
+    watchOptions: {
+        poll:true;
+    }
+
 
 Port Forwarding
 ###############
