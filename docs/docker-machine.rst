@@ -1,14 +1,14 @@
 Docker
 --------------------
 
-Docker on OS X requires a virtual machine manager. We use Virtualbox the below
+Docker on OS X requires a virtual machine manager, we use Virtualbox. The below
 will walk you through the process of getting docker up and running on a computer
-running OS X. The primary toold for set up is docker-machine.
+running OS X. The primary tool for set up is docker-machine.
 
-docker-machine is used to manage virtual machines which can host docker
+docker-machine is used to manage virtual machines that can host docker
 instances. It can be used to spin up docker hosts in Google Compute Engine, AWS,
 and other platform providers. It's also useful for developers who want the
-convenience of docker on OS's like Mac and Windows. docker-machine allows those
+convenience of docker on OSes like Mac and Windows. docker-machine allows those
 users to spin up one lightweight VM to host all their docker containers.
 
 
@@ -24,19 +24,19 @@ Each of the docker tools is installed individually on OS X.
 :code:`brew install docker-compose`
 :code:`brew install docker-machine-nfs`
 
-Next create a host to house your docker instances we specifiy the host IP to avoid
+Next create a host to house your docker instances – we specifiy the host IP to avoid
 network conflicts. If this IP conflicts with addresses on your network choose another:
 
 :code:`docker-machine create --virtualbox-hostonly-cidr "192.168.240.1/24" --driver virtualbox dev`
 
-You now have a virtualbox instance running the boot2docker.iso. This instace has the docker
+You now have a VirtualBox instance running the boot2docker.iso. This instace has the docker
 server tools installed and will accept commands from the docker client running your local
-command line. To configure the local docker command to talk to the virtualbox docker server
-follow the output from the previous command, which tells you to this:
+command line. To configure the local docker command to talk to the VirtualBox docker server
+follow the output from the previous command, which tells you to do this:
 
 :code:`eval "$(docker-machine env dev)"`
 
-With that you can run docker images... but if you want to work use them to work with local
+With that you can run docker images... but if you want them to work with local
 files or provide access to users that on your computer - say for looking at webpage - you've
 got a few more steps.
 
