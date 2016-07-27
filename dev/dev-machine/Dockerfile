@@ -110,6 +110,7 @@ RUN echo "export PATH=$PATH:/opt/local/node-v$NODE_VERSION-linux-x64/bin \n \
     alias djmm='python /srv/active/project/manage.py makemigrations' \n \
     alias djcs='python /srv/active/project/manage.py createsuperuser' \n \
     alias djs='python /srv/active/project/manage.py shell_plus' \n \
+    alias djsh='python /srv/active/project/manage.py shell' \n \
     alias djdb='python /srv/active/project/manage.py dbshell'" >> /home/developer/.zshrc
 
 RUN chown -R developer:developer /home/developer

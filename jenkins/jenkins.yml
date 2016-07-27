@@ -1,0 +1,16 @@
+jenkins-data:
+    mem_limit: 2G
+    image: ff0000/jenkins-data:latest
+jenkins-server:
+    restart: always
+    mem_limit: 8G
+    image: ff0000/jenkins-server:latest
+    name: jenkins-master
+    tty: true
+    stdin_open: true
+    volumes_from:
+    - jenkins-data
+    ports:
+        - "8080"
+        - "50000"
+        - "80"
